@@ -6,16 +6,6 @@ import {
 			Animated
 		} from 'react-native';
 
-let CIRCLE_RADIUS = 28;
-let styles = StyleSheet.create({
-    circle      : {
-        
-        width               : CIRCLE_RADIUS*2,
-        height              : CIRCLE_RADIUS*2,
-        borderRadius        : CIRCLE_RADIUS
-    }
-});
-
 export default class Ball extends Component{
 	constructor(props){
 		super(props);
@@ -25,12 +15,19 @@ export default class Ball extends Component{
 	        
 	    };
 
-	    this.ballStyle = {
-        	backgroundColor		: this.props.color,
-        	width               : CIRCLE_RADIUS*2,
-    		height              : CIRCLE_RADIUS*2,
-    		borderRadius        : CIRCLE_RADIUS
-        }
+	    this.styles = StyleSheet.create({
+	    	ballContainer: {
+	    		position: 'absolute', 
+	    		top		: this.props.top, 
+	    		left	: this.props.left
+	    	}, 
+	    	ball: {
+	    		backgroundColor: this.props.color, 
+	    		width		   : this.props.radius * 2, 
+	    		height		   : this.props.radius * 2, 
+	    		borderRadius   : this.props.radius
+	    	}
+	    });
 
 	    this.panResponder = PanResponder.create({    
 	        onStartShouldSetPanResponder : () => true,
@@ -50,14 +47,10 @@ export default class Ball extends Component{
 
 	render(){
 		return(
-			<View style={{
-				position: 'absolute', 
-				top		: this.props.top, 
-				left	: this.props.left
-			}} >
+			<View style={this.styles.ballContainer} >
 	                <Animated.View 
 	                	{...this.panResponder.panHandlers} 
-	                	style={[this.state.pan.getLayout(), this.ballStyle]} />
+	                	style={[this.state.pan.getLayout(), this.styles.ball]} />
 	        </View>
         );
 	}
