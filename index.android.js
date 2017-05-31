@@ -20,7 +20,7 @@ export default class AwesomeProject extends Component {
     super(props);
 
     this.state = {
-      tab: 'ScoreBoard'
+      tab: 'StopWatch'
     };
   }
 

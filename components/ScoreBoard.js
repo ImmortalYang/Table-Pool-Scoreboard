@@ -22,16 +22,15 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: null,
-        resizeMode: 'cover'
+        resizeMode: 'stretch'
     }
 });
 
 export default class ScoreBoard extends Component{
 	render(){
 		return (
-					<Image  source = {require('../launch.png')}
-							style = {styles.backgroundImage}
-							resizeMode = 'stretch'>
+					<Image  source = {require('../assets/image/launch.png')}
+							style = {styles.backgroundImage} >
 						<Ball top={Window.height * ROW_1_RATIO - BALL_RADIUS} left={Window.width * COL_1_RATIO - BALL_RADIUS} color='yellow' radius={BALL_RADIUS} />
 						<Ball top={Window.height * ROW_1_RATIO - BALL_RADIUS} left={Window.width * COL_2_RATIO - BALL_RADIUS} color='yellow' radius={BALL_RADIUS} />
 						<Ball top={Window.height * ROW_1_RATIO - BALL_RADIUS} left={Window.width * COL_3_RATIO - BALL_RADIUS} color='yellow' radius={BALL_RADIUS} />
