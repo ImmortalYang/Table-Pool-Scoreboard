@@ -8,15 +8,15 @@ import {
 import Ball from './Ball.js';
 
 let Window = Dimensions.get('window');
-let COL_1_RATIO = 0.09;
-let COL_2_RATIO = 0.24;
-let COL_3_RATIO = 0.42;
-let COL_4_RATIO = 0.58;
-let COL_5_RATIO = 0.76;
-let COL_6_RATIO = 0.91;
-let ROW_1_RATIO = 0.12;
-let ROW_2_RATIO = 0.76;
-let BALL_RADIUS = 25;
+const COL_1_RATIO = 0.09;
+const COL_2_RATIO = 0.24;
+const COL_3_RATIO = 0.42;
+const COL_4_RATIO = 0.58;
+const COL_5_RATIO = 0.76;
+const COL_6_RATIO = 0.91;
+const ROW_1_RATIO = 0.12;
+const ROW_2_RATIO = 0.76;
+const BALL_RADIUS = 25;
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
