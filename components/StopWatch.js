@@ -3,6 +3,7 @@ import {
 	StyleSheet, 
 	Text,
 	View,
+	Image,
 	Dimensions
 } from 'react-native';
 import {
@@ -57,10 +58,24 @@ const styles = StyleSheet.create({
 	btnText: {
 		color: '#fff',
 		fontSize: 30
+	}, 
+	icon: {
+		width: 25,
+		height: 25
 	}
 });
 
 export default class StopWatch extends Component{
+	static navigationOptions = {
+	    tabBarLabel: 'StopWatch', 
+	    tabBarIcon: () => (
+	      <Image
+	        source={require('../assets/image/stopwatch-icon.png')}
+	        style={styles.icon}
+	      />
+	    )
+	};
+	
 	constructor(props){
 		super(props);
 

@@ -23,10 +23,24 @@ const styles = StyleSheet.create({
         width: null,
         height: null,
         resizeMode: 'stretch'
+    },
+    icon: {
+    	width: 25,
+    	height: 25
     }
 });
 
 export default class ScoreBoard extends Component{
+	static navigationOptions = {
+	    tabBarLabel: 'ScoreBoard',
+	    tabBarIcon: () => (
+	      <Image
+	        source={require('../assets/image/scoreboard-icon.png')}
+	        style={styles.icon}
+	      />
+	    )
+	};
+
 	render(){
 		return (
 					<Image  source = {require('../assets/image/launch.png')}
