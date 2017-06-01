@@ -3,15 +3,23 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View, 
-  Button
+  View
 } from 'react-native';
+import {
+  Button,
+  Footer,
+  FooterTab
+} from 'native-base'
 import ScoreBoard from './components/ScoreBoard';
 import StopWatch from './components/StopWatch';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  btnText: {
+    color: 'red',
+    fontSize: 20
   }
 });
 
@@ -20,8 +28,10 @@ export default class AwesomeProject extends Component {
     super(props);
 
     this.state = {
-      tab: 'StopWatch'
+      tab: 'ScoreBoard'
     };
+    this.scoreBoard = <ScoreBoard/>;
+    this.stopWatch  = <StopWatch />;
   }
 
   setTab(tabName){
@@ -33,10 +43,18 @@ export default class AwesomeProject extends Component {
   render() {
     return(
       <View style={styles.container} >
-        {this.state.tab === 'ScoreBoard' && <ScoreBoard/>}
-        {this.state.tab === 'StopWatch'  && <StopWatch/> }
-        <Button onPress={() => this.setTab('ScoreBoard')} title='ScoreBoard'/>
-        <Button onPress={() => this.setTab('StopWatch')}  title='StopWatch'/>
+        {this.state.tab === 'ScoreBoard' && this.scoreBoard}
+        {this.state.tab === 'StopWatch'  && this.stopWatch }
+        <Footer>
+          <FooterTab>
+            <Button onPress={() => this.setTab('ScoreBoard')} style={{backgroundColor: '#fff'}} >
+              <Text style={styles.btnText}>ScoreBoard</Text>
+            </Button>
+            <Button onPress={() => this.setTab('StopWatch')}  style={{backgroundColor: '#fff'}} >
+              <Text style={styles.btnText}>StopWatch</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </View>
     );
   }

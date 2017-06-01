@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { 
-			StyleSheet, 
-			Text,
-			View, 
-			Button, 
-			Dimensions
-		} from 'react-native';
+	StyleSheet, 
+	Text,
+	View,
+	Dimensions
+} from 'react-native';
+import {
+	Button
+} from 'native-base'
 
 let Window = Dimensions.get('window');
 const CLOCK_RADIUS = 250;
@@ -16,8 +18,9 @@ const styles = StyleSheet.create({
 	}, 
 	clock: {
 		position: 'absolute', 
-		top: Window.height / 2 - CLOCK_RADIUS, 
-		left: Window.width / 2 - CLOCK_RADIUS,
+		top: '40%', 
+		left: '50%',
+		transform: [{translateX: -CLOCK_RADIUS}, {translateY: -CLOCK_RADIUS}],
 		width:  CLOCK_RADIUS * 2, 
 		height: CLOCK_RADIUS * 2,
 		borderRadius: CLOCK_RADIUS, 
@@ -49,7 +52,11 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		top: '95%',
 		left: '50%',
-		transform: [{translateX: -50}, {translateY: -50}]
+		transform: [{translateX: -80}, {translateY: -50}]
+	},
+	btnText: {
+		color: '#fff',
+		fontSize: 30
 	}
 });
 
@@ -59,91 +66,100 @@ export default class StopWatch extends Component{
 
 		this.state = {
 			countDown: 30,
-			clockId: null
 		};
+		this.clockId = null;
+	}
+
+	componentDidMount(){
+		if(this.clockId != null){
+			//Resume the timer
+			this.clockId = setInterval(
+					() => this.tick(),
+					1000
+				);
+		}
+	}
+
+	componentWillUnmount(){
+		clearInterval(this.clockId);
 	}
 
 	startCountDown(){
-		if(this.state.clockId === null){
-			//If the timer hasn't started, set up the timer
-			let intervalId = setInterval(
-					() => this.tick(),
-					1000
-				);
-			this.setState({
-				countDown: 30,
-				clockId: intervalId
-			});
-		}
-		else{
-			//Timer already started, reset the countdown to 30 sec
-			this.setState({
-				countDown: 30
-			});
-		}
+		clearInterval(this.clockId);
+		this.clockId = setInterval(
+				() => this.tick(),
+				1000
+			);
+		this.setState({
+			countDown: 30
+		});	
+
 	}
 
 	stopCountDown(){
-		clearInterval(this.state.clockId);
+		clearInterval(this.clockId);
+		this.clockId = null;
 		this.setState({
-			countDown: 0,
-			clockId: null
+			countDown: 0
 		});
 	}
 
+	//Extend for 30 seconds
 	setExtension(){
-		let intervalId = this.state.clockId;
-		if(intervalId === null){
-			//If clock hasn't started, start the clock
-			intervalId = setInterval(
-					() => this.tick(),
-					1000
-				);
-		}
-		//Extend 30 seconds
+		clearInterval(this.clockId);
+		this.clockId = setInterval(
+				() => this.tick(),
+				1000
+			);
 		this.setState((prevState, props) => {
 			return{
-				countDown: prevState.countDown + 30, 
-				clockId: intervalId
+				//Total extension cannot be more than 99 seconds
+				countDown: prevState.countDown + 30 < 100 ? 
+						   prevState.countDown + 30		  : 
+						   prevState.countDown, 
 			};
 		});
 
 	}
 
 	tick(){
-		if(this.state.clockId === null) return;
+		if(this.clockId === null) return;
+		if(this.state.countDown < 1){
+			this.stopCountDown();
+			return;
+		}
 		this.setState((prevState, props) => {
-			let prevCount = prevState.countDown;
-			if(prevCount > 0){
-				//Countdown > 0, continue countdown
-				return {
-					countDown: prevCount - 1
-				};
-			}
-			else{
-				//Countdown to 0, stop timer
-				clearInterval(this.state.clockId);
-				return{
-					clockId: null
-				};
-			}
+			return {
+				countDown: prevState.countDown - 1
+			};
 		});
+	}
+
+	//Pad the countdown number with leading zero, fixed length of 2 digits
+	pad(n){
+		return ('00' + n).slice(-2);
 	}
 
 	render(){
 		return (
 			<View style={styles.container} >
 				<View style={styles.clock}>
-					<Text style={styles.countDown}>{this.state.countDown}</Text>
+					<Text style={styles.countDown}>{this.pad(this.state.countDown)}</Text>
 				</View>
 				<View style={styles.btnStart}>
-					<Button onPress={() => this.startCountDown()} title='START' color='black' />
+					<Button onPress={() => this.startCountDown()} style={{backgroundColor: '#000'}} >
+						<Text style={styles.btnText}>START</Text>
+					</Button>
 				</View>
 				<View style={styles.btnStop}>
-					<Button onPress={() => this.stopCountDown()} title='STOP' color='black' />
+					<Button onPress={() => this.stopCountDown()}  style={{backgroundColor: '#000'}} >
+						<Text style={styles.btnText}>STOP</Text>
+					</Button>
 				</View>
 				<View style={styles.btnExtension}>
-					<Button onPress={() => this.setExtension()} title='EXTENSION' color='black' />
+					<Button onPress={() => this.setExtension()}  style={{backgroundColor: '#000'}} >
+						<Text style={styles.btnText}>EXTENSION</Text>
+					</Button>
 				</View>
 			</View>
 			);
